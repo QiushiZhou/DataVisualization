@@ -101,7 +101,7 @@ const DataManager: React.FC<DataManagerProps> = ({ onDataChange, dataTypes }) =>
       dataIndex: 'type',
       key: 'type',
       filters: dataTypes.map(type => ({ text: type.name, value: type.name })),
-      onFilter: (value: string, record: DataEntry) => record.type === value,
+      onFilter: (value: any, record: DataEntry) => record.type === value,
     },
     {
       title: 'Value',
