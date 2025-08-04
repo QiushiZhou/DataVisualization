@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
+const path = require('path'); // ✅ 添加这一行
+
 const nextConfig = {
   reactStrictMode: true,
+
   async rewrites() {
     return [
       {
@@ -9,11 +12,11 @@ const nextConfig = {
       },
     ];
   },
+
   webpack: (config) => {
-    config.resolve.alias['@'] = path.resolve(__dirname, 'src');
+    config.resolve.alias['@'] = path.resolve(__dirname, 'src'); // ✅ 用到了 path
     return config;
   },
-
 };
 
 module.exports = nextConfig;
