@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Modal, Form, Input, message, Popconfirm, DatePicker, Select, InputNumber } from 'antd';
-import { getDataEntries, updateDataEntry, deleteDataEntry } from '@/services/api';
+import { getDataEntries, updateDataEntry, deleteDataEntry } from '../services/api';
 import dayjs from 'dayjs';
 
 const { Option } = Select;

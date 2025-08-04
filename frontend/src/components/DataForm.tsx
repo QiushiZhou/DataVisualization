@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import { Form, InputNumber, DatePicker, Select, Button, message } from 'antd';
 import dayjs from 'dayjs';
-import { createDataEntry } from '@/services/api';
+import { createDataEntry } from '../services/api';
 
 const { Option } = Select;
 

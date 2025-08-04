@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Modal, Form, Input, message, Popconfirm, Alert } from 'antd';
-import { getDataTypes, createDataType, updateDataType, deleteDataType } from '@/services/api';
+import { getDataTypes, createDataType, updateDataType, deleteDataType } from '../services/api';
 
 interface DataType {
   id: number;
