@@ -3,15 +3,15 @@
 import React, { useState, useEffect, useCallback, Suspense } from 'react';
 import { Layout, Spin, Card, Space } from 'antd';
 import dynamic from 'next/dynamic';
-import { getDataEntries, getDataTypes } from '../services/api';
+import { getDataEntries, getDataTypes } from '@/services/api';
 
 const { Header, Content, Sider } = Layout;
 
 // Dynamically import client components
-const DataForm = dynamic(() => import('../components/DataForm'), { ssr: false, loading: () => <Spin /> });
-const DataChart = dynamic(() => import('../components/DataChart'), { ssr: false, loading: () => <Spin /> });
-const TypeManager = dynamic(() => import('../components/TypeManager'), { ssr: false, loading: () => <Spin /> });
-const DataManager = dynamic(() => import('../components/DataManager'), { ssr: false, loading: () => <Spin /> });
+const DataForm = dynamic(() => import('@/components/DataForm'), { ssr: false, loading: () => <Spin /> });
+const DataChart = dynamic(() => import('@/components/DataChart'), { ssr: false, loading: () => <Spin /> });
+const TypeManager = dynamic(() => import('@/components/TypeManager'), { ssr: false, loading: () => <Spin /> });
+const DataManager = dynamic(() => import('@/components/DataManager'), { ssr: false, loading: () => <Spin /> });
 
 export default function Home() {
   const [dataEntries, setDataEntries] = useState<any[]>([]);
