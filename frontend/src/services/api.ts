@@ -11,42 +11,82 @@ const api = axios.create({
 
 // Data Entry API
 export const getDataEntries = async () => {
-  const response = await api.get('/data-entries/');
-  return response.data;
+  try {
+    const response = await api.get('/data-entries/');
+    return response.data;
+  } catch (error) {
+    console.error('Failed to fetch data entries:', error);
+    return [];
+  }
 };
 
 export const createDataEntry = async (data: { date: string; type: string; value: number }) => {
-  const response = await api.post('/data-entries/', data);
-  return response.data;
+  try {
+    const response = await api.post('/data-entries/', data);
+    return response.data;
+  } catch (error) {
+    console.error('Failed to create data entry:', error);
+    throw error;
+  }
 };
 
 export const updateDataEntry = async (id: number, data: { date: string; type: string; value: number }) => {
-  const response = await api.put(`/data-entries/${id}`, data);
-  return response.data;
+  try {
+    const response = await api.put(`/data-entries/${id}`, data);
+    return response.data;
+  } catch (error) {
+    console.error('Failed to update data entry:', error);
+    throw error;
+  }
 };
 
 export const deleteDataEntry = async (id: number) => {
-  const response = await api.delete(`/data-entries/${id}`);
-  return response.data;
+  try {
+    const response = await api.delete(`/data-entries/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Failed to delete data entry:', error);
+    throw error;
+  }
 };
 
 // Data Type API
 export const getDataTypes = async () => {
-  const response = await api.get('/data-types/');
-  return response.data;
+  try {
+    const response = await api.get('/data-types/');
+    return response.data;
+  } catch (error) {
+    console.error('Failed to fetch data types:', error);
+    return [];
+  }
 };
 
 export const createDataType = async (data: { name: string }) => {
-  const response = await api.post('/data-types/', data);
-  return response.data;
+  try {
+    const response = await api.post('/data-types/', data);
+    return response.data;
+  } catch (error) {
+    console.error('Failed to create data type:', error);
+    throw error;
+  }
 };
 
 export const updateDataType = async (id: number, data: { name: string }) => {
-  const response = await api.put(`/data-types/${id}`, data);
-  return response.data;
+  try {
+    const response = await api.put(`/data-types/${id}`, data);
+    return response.data;
+  } catch (error) {
+    console.error('Failed to update data type:', error);
+    throw error;
+  }
 };
 
 export const deleteDataType = async (id: number) => {
-  const response = await api.delete(`/data-types/${id}`);
-  return response.data;
-};
+  try {
+    const response = await api.delete(`/data-types/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Failed to delete data type:', error);
+    throw error;
+  }
+}; 

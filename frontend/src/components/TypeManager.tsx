@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Modal, Form, Input, message, Popconfirm } from 'antd';
+import { Table, Button, Modal, Form, Input, message, Popconfirm, Alert } from 'antd';
 import { getDataTypes, createDataType, updateDataType, deleteDataType } from '@/services/api';
 
 interface DataType {
@@ -26,7 +26,6 @@ const TypeManager: React.FC<TypeManagerProps> = ({ onTypeChange }) => {
       const data = await getDataTypes();
       setTypes(data);
     } catch (error) {
-      message.error('Failed to fetch data types');
       console.error('Failed to fetch data types:', error);
     } finally {
       setLoading(false);
@@ -111,6 +110,13 @@ const TypeManager: React.FC<TypeManagerProps> = ({ onTypeChange }) => {
 
   return (
     <div>
+      <Alert
+        message="Add Data Types"
+        description="Create data types (e.g., 'Temperature', 'Humidity', 'Pressure') to categorize your data entries."
+        type="info"
+        showIcon
+        style={{ marginBottom: 16 }}
+      />
       <Button
         type="primary"
         onClick={handleAdd}
@@ -134,9 +140,14 @@ const TypeManager: React.FC<TypeManagerProps> = ({ onTypeChange }) => {
           <Form.Item
             name="name"
             label="Type Name"
-            rules={[{ required: true, message: 'Please input the type name!' }]}
+            rules={[
+              { required: true, message: 'Please input the type name!' },
+              { min: 2, message: 'Type name must be at least 2 characters!' },
+              { max: 50, message: 'Type name cannot exceed 50 characters!' }
+            ]}
+            help="Enter a descriptive name for the data type (e.g., 'Temperature', 'Humidity')"
           >
-            <Input />
+            <Input placeholder="Enter type name" />
           </Form.Item>
         </Form>
       </Modal>
