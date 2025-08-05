@@ -15,9 +15,11 @@ interface DataFormProps {
 const DataForm: React.FC<DataFormProps> = ({ onDataAdded, dataTypes }) => {
   const [form] = Form.useForm();
 
+  // Set current date when component mounts
   useEffect(() => {
-    form.setFieldsValue({ date: dayjs() });
-  }, [form]);
+    const currentDate = dayjs();
+    form.setFieldsValue({ date: currentDate });
+  }, []); // Only run once when component mounts
 
   const onFinish = async (values: any) => {
     try {
@@ -42,7 +44,6 @@ const DataForm: React.FC<DataFormProps> = ({ onDataAdded, dataTypes }) => {
       name="data_entry"
       onFinish={onFinish}
       layout="vertical"
-      initialValues={{ date: dayjs() }}
     >
       <Form.Item
         name="date"

@@ -13,27 +13,27 @@ from .config import get_settings
 
 settings = get_settings()
 
-# 创建数据库表
+# Create database tables
 entry_models.Base.metadata.create_all(bind=engine)
 type_models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Data Visualization API")
 
-# 配置 CORS - 允许所有来源，生产环境会通过环境变量限制
+# Configure CORS - allow all origins, production environment will be restricted via environment variables
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # 允许所有来源，生产环境应该限制为实际的前端域名
+    allow_origins=["*"],  # Allow all origins, production should be restricted to actual frontend domain
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# 健康检查端点
+# Health check endpoint
 @app.get("/health")
 def health_check():
     return {"status": "healthy", "environment": settings.ENVIRONMENT}
 
-# 依赖项
+# Dependencies
 def get_db():
     db = SessionLocal()
     try:
@@ -41,7 +41,7 @@ def get_db():
     finally:
         db.close()
 
-# Data Type CRUD 操作
+# Data Type CRUD operations
 @app.post("/data-types/", response_model=type_schemas.DataType)
 def create_data_type(data_type: type_schemas.DataTypeCreate, db: Session = Depends(get_db)):
     try:
@@ -96,10 +96,10 @@ def delete_data_type(type_id: int, db: Session = Depends(get_db)):
         db.rollback()
         raise HTTPException(status_code=400, detail=str(e))
 
-# Data Entry CRUD 操作
+# Data Entry CRUD operations
 @app.post("/data-entries/", response_model=entry_schemas.DataEntry)
 def create_data_entry(data_entry: entry_schemas.DataEntryCreate, db: Session = Depends(get_db)):
-    # 验证 type 是否存在
+    # Validate if type exists
     db_type = db.query(type_models.DataType).filter(type_models.DataType.name == data_entry.type).first()
     if not db_type:
         raise HTTPException(status_code=400, detail="Invalid data type")
@@ -148,7 +148,7 @@ def update_data_entry(entry_id: int, data_entry: entry_schemas.DataEntryCreate, 
     if db_entry is None:
         raise HTTPException(status_code=404, detail="Data entry not found")
 
-    # 验证 type 是否存在
+    # Validate if type exists
     db_type = db.query(type_models.DataType).filter(type_models.DataType.name == data_entry.type).first()
     if not db_type:
         raise HTTPException(status_code=400, detail="Invalid data type")

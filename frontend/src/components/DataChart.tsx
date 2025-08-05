@@ -12,7 +12,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { format } from 'date-fns';
+import dayjs from 'dayjs';
 
 ChartJS.register(
   CategoryScale,
@@ -42,12 +42,16 @@ interface DataChartProps {
 }
 
 const DataChart: React.FC<DataChartProps> = ({ data, dataTypes }) => {
-  const getChartData = () => {
-    const labels = Array.from(new Set(data.map(entry => format(new Date(entry.date), 'yyyy-MM-dd')))).sort();
+  // Sort data by date first
+  const sortedData = [...data].sort((a, b) => dayjs(a.date).valueOf() - dayjs(b.date).valueOf());
+  
+  // Get unique dates and format them properly
+  const labels = Array.from(new Set(sortedData.map(entry => dayjs(entry.date).format('YYYY-MM-DD')))).sort();
 
+  const getChartData = () => {
     const datasets = dataTypes.map(type => {
       const typeData = labels.map(label => {
-        const entry = data.find(d => format(new Date(d.date), 'yyyy-MM-dd') === label && d.type === type.name);
+        const entry = sortedData.find(d => dayjs(d.date).format('YYYY-MM-DD') === label && d.type === type.name);
         return entry ? entry.value : null;
       });
 
@@ -89,12 +93,26 @@ const DataChart: React.FC<DataChartProps> = ({ data, dataTypes }) => {
         display: true,
         text: 'Data Entries Over Time',
       },
+      tooltip: {
+        callbacks: {
+          title: (context: any) => {
+            const date = context[0].label;
+            return dayjs(date).format('MMM DD, YYYY');
+          },
+        },
+      },
     },
     scales: {
       x: {
         title: {
           display: true,
           text: 'Date',
+        },
+        ticks: {
+          callback: (value: any, index: number) => {
+            const date = labels[index];
+            return dayjs(date).format('MM/DD');
+          },
         },
       },
       y: {
